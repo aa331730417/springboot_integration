@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Insert title here</title>
+</head>
+<body>
+<h2>用户列表</h2>
+<h3 th:fragment="copy">用户<label style="color: indianred;" th:text="${session.user.name}">admin</label>你好,欢迎你</h3>
+<div>
+    <shiro:hasRole name="admin">
+        <a href="/add">新增</a>
+    </shiro:hasRole>
+    <shiro:hasPermission name="update">
+        <a href="/update">修改</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="delete">
+        <a href="/delete">删除</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="search">
+        <table border="1">
+            <tr th:each="user:${pageInfo.list}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.mobile}"></td>
+                <td th:text="${user.addr}"></td>
+            </tr>
+        </table>
+        <div>共<label th:text="${pageInfo.pages}">1</label>页,当前第<label th:text="${pageInfo.pageNum}">1</label>页</div>
+        <div><a th:href="@{/user(pageNum=${pageInfo.prePage})}">上一页</a> <a th:href="@{/user(pageNum=${pageInfo.nextPage})}">下一页</a></div>
+    </shiro:hasPermission>
+</div>
+</body>
+</html>
